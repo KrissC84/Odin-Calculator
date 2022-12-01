@@ -14,12 +14,14 @@ margin: 100px 20%;
 
 .main {
     flex-direction: column;
-    padding: 20px;
+    padding: 20px 20px 30px 20px;
+
     background-color: rgb(176, 187, 228);
     border-radius: 45px;
     box-shadow: 10px 6px 3px 3px  rgba(20, 22, 1, 0.4);
 }
 .display {
+    flex-direction: column;
     font-size: larger;
     font-family: fantasy;
     background-color: rgba(139, 136, 219, 0.379);
@@ -41,25 +43,37 @@ margin: 100px 20%;
     
 }
 .operators {
-    flex-direction: column;
     
-}
+    }
 
 .button {
     height: 78px;
     width: 78px;
     font-size: 33px;
     border-radius: 25%;
-    box-shadow: 12%;
     margin: 1px;
     box-shadow: -2px 3px  rgba(20, 22, 1, 0.4);
 }
 
+.operators .col_1 .button  {
+    background-color: rgba(228, 216, 176, 0.879);
+}
+
 .line_1, .line_2 {
-    padding: 15px;
-    font-size: 30px;
+    padding: 12px;
+
 }
 
 .line_2 {
     align-self: end;
+    font-size: 30px;
+}
+.line_1 {
+    font-style: italic;
+    font-size: 25px;
+}
+
+.col_1, .col_2 {
+    display: flex;
+    flex-direction: column;
 }
