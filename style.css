@@ -1,0 +1,65 @@
+.main, .numbers, .operators, .middle, .display {
+    display: flex;
+    /* border: 1px solid black; */
+    font-size: large;
+    justify-content: space-evenly;
+}
+
+body {
+display: flex;
+justify-content: center;
+padding: 1%;
+margin: 100px 20%;
+}
+
+.main {
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgb(176, 187, 228);
+    border-radius: 45px;
+    box-shadow: 10px 6px 3px 3px  rgba(20, 22, 1, 0.4);
+}
+.display {
+    font-size: larger;
+    font-family: fantasy;
+    background-color: rgba(139, 136, 219, 0.379);
+    height: 4em;
+    padding: 2%;
+    margin: 20px 20px 30px;
+    border-radius: 35px;
+    box-shadow: inset 3px 3px  rgba(20, 22, 1, 0.4);
+}
+.numbers {
+    min-width: 260px;
+    max-width:260px ;
+    min-height: 320px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.middle {
+    
+}
+.operators {
+    flex-direction: column;
+    
+}
+
+.button {
+    height: 78px;
+    width: 78px;
+    font-size: 33px;
+    border-radius: 25%;
+    box-shadow: 12%;
+    margin: 1px;
+    box-shadow: -2px 3px  rgba(20, 22, 1, 0.4);
+}
+
+.line_1, .line_2 {
+    padding: 15px;
+    font-size: 30px;
+}
+
+.line_2 {
+    align-self: end;
+}
