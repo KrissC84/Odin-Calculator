@@ -77,3 +77,14 @@ margin: 100px 20%;
     display: flex;
     flex-direction: column;
 }
+
+#ON {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.kc {
+    font-style: italic;
+    color: rgb(120, 147, 244);
+    align-self:  center;
+}

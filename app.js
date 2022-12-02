@@ -50,7 +50,7 @@ for (let i of operants) {
 }
 
 //operants for the second column 
-let operants2 = ['AC', 'C', '-/+', '%'];
+let operants2 = ['AC', 'C', '-/+', 'ON'];
 let operators2 = document.querySelector(".operators .col_2");
 for (let i of operants2) {
     let item = document.createElement('button');
@@ -64,7 +64,7 @@ for (let i of operants2) {
 //#################################################################
 //Operations on numbers
 // Declaration of all variables
-
+let onOff = true;
 //buffer for number recording
 let enterNum = [];
 // operants and operator declaration
@@ -135,15 +135,17 @@ number.addEventListener('click', (e) => {
             getResult();
         } return;
     };
-
-    //condition to start singular equation after previous was done and result is not needed
+    //condition to start singular equation after previous one was done and result is not needed
     if (numberA !== '' && numberB !== '' && mainOperator !== '' && result !== '') {
         resetAllVariable();
-    } 
-
+    }
     //Collecting information for numbers and operants
+    getNumber(e.target.textContent)
+});
+
+function getNumber(num) {
     //adding a number that was clicked to the figure
-    enterNum.push(e.target.textContent);
+    enterNum.push(num);
 
     //while no operator was clicked we record first operant
     if (mainOperator === '') {
@@ -158,16 +160,13 @@ number.addEventListener('click', (e) => {
         //refresh what is being displayed in line 1
         line1.textContent = `${numberA}${mainOperator}${numberB}`;
     }
-});
+}
 
 function getResult() {
     result = operate(numberA, numberB, mainOperator);
     if (result !== 'error') {
         result = Math.round(result * 1000000) / 1000000;
         line2.textContent = '= ' + result;
-        // mainOperator = '';
-        // numberA = result;
-        // numberB = '';
         enterNum = [];
     } else {
         resetAllVariable();
@@ -176,17 +175,19 @@ function getResult() {
 }
 
 col_1_operator.addEventListener('click', (e) => {
-    
+
     // If user doesn't enter first number nothing is happened 
-    if ( numberA === '') { return };
+    if (numberA === '') { return };
     console.log(e.target.textContent);
-    // if user would like to reuse the result 
-    if (numberA !== '' && numberB !== '' && mainOperator !== '' && result !=='') {
+
+    // if user would like to reuse the result in next step
+    if (numberA !== '' && numberB !== '' && mainOperator !== '' && result !== '') {
         mainOperator = e.target.textContent;
         numberA = result;
-        result='';
+        result = '';
         numberB = ''
         line1.textContent = `${numberA}${mainOperator}${numberB}`;
+        line2.textContent = '=';
         ; return;
     }
 
@@ -202,11 +203,75 @@ col_2_operator.addEventListener('click', (e) => {
     if (e.target.textContent === 'AC') {
         resetAllVariable();
     };
+
+    //all situations when user wants to change sign to opposite one for the current number or result
     if (e.target.textContent === '-/+') {
 
-        enterNum = oppositeValue(enterNum);
+        //if nothing was entered yet
+        if (numberA === '') {
+            enterNum = ['-'];
+            line1.textContent = `- ${mainOperator}${numberB}`;
+            return;
+        }
+        //if user wants to reuse the result but with opposite value
+        if (result !== '') {
+            result *= -1;
+            line2.textContent = '=' + result; return;
+        }
+
+        //if user have first number but would like to have it mult. by -1
+        if (mainOperator === '') {
+            numberA *= -1;
+            enterNum = numToArray(numberA);
+            line1.textContent = `${numberA}${mainOperator}${numberB}`; return;
+        }
+
+        //
+        if (mainOperator !== '' && result === '') {
+            if (numberB === '') {
+
+                enterNum = ['-'];
+                line1.textContent = `${numberA}${mainOperator} -`; return
+            }
+
+            numberB *= -1;
+            enterNum = numToArray(numberB);
+            line1.textContent = `${numberA}${mainOperator}${numberB}`; return;
+        }
     };
 
+    //user wants to change current number
+    if (e.target.textContent === 'C') {
+        console.log(e.target.textContent)
+        //if it is the first one
+        if (enterNum.length === 0 ) {return;} else {
+            enterNum.pop();
+            if (mainOperator ==='') {
+                numberA = Number(enterNum.join(''));
+                line1.textContent = `${numberA}${mainOperator}${numberB}`;
+                return;
+            }
+            //if it is the second one
+            if (mainOperator !=='' && result ==='') {
+                numberB = Number(enterNum.join(''));
+                line1.textContent = `${numberA}${mainOperator}${numberB}`;
+            }
+        }
+    }
+
+    if (e.target.textContent === 'ON') {
+        if (onOff) {
+        line1.textContent =''
+        line2.textContent =''
+        onOff=false;
+        }else {
+            resetAllVariable();
+            line1.textContent = `0`;
+            line2.textContent = '=';
+            onOff=true;
+        }
+
+    }
 });
 
 const resetAllVariable = function () {
@@ -214,15 +279,12 @@ const resetAllVariable = function () {
     mainOperator = ''; result = '';
     enterNum = []; line1.textContent = 0;
     line2.textContent = '=';
+    
 }
 
-const oppositeValue = function (n) {
-
-    n.unshift('-')
-    return n;
+function numToArray(num) {
+    return num.toString().split('');
 }
-
-
 
 
 
